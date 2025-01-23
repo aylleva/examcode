@@ -1,0 +1,56 @@
+﻿
+@model PaginatedItemVM<GetDoctorVM>
+@{
+    int count = (Model.CurrectPage-1)*2;
+}
+<div class="col-lg-6 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Doctors Table</h4>
+            <a class="btn btn-succces" title="Create" asp-action="create">Create Doctor</a>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>PositionName</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach(var doct in Model.Items)
+                        {
+                            count++;
+                            <tr>
+                                <td>@count</td>
+                                <td><img src="~/assets/images/@doct.Image"></td>
+                                <td>@doct.Name</td>
+                                <td>@doct.PositionName</td>
+                                <td>
+                                    <a class="btn btn-warning" title="Update" asp-action="update" asp-route-id="@doct.Id">Update</a>
+                                    <a class="btn btn-danger" title="Delete" asp-action="delete" asp-route-id="@doct.Id">Delete</a>
+                                </td>
+                            </tr>
+                            
+                        }
+                </table>
+                <nav aria-label="...">
+                    <ul class="pagination">
+                        <li class="page-item @(Model.CurrectPage<1?"disabled":"")">
+                            <a class="page-link" asp-action="index" asp-route-page="@(Model.CurrectPage-1)">Previous</a>
+                        </li>
+                        @for(int i = 0; i <= Model.TotalPage; i++)
+                        {
+                            <li class="page-item @(Model.CurrectPage==i+1?"disabled":"")"><a class="page-link" asp-action="index" asp-route-page="@(i+1)">@(i + 1)</a></li>
+                        }
+
+                        <li class="page-item @(Model.CurrectPage==Model.TotalPage?"disabled":"")">
+                            <a class="page-link" asp-action="index" asp-route-page="@(Model.CurrectPage+1)">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
